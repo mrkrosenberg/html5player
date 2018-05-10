@@ -7,6 +7,10 @@ const   player = document.querySelector('.player'),
         skipButtons = player.querySelectorAll('[data-skip]'),
         ranges = player.querySelectorAll('.player__slider');
 
+        // add for auto playback
+                // screen = document.querySelector('.viewer').play();
+
+
 
 // build out functions
 const togglePlay = () => {
@@ -15,6 +19,15 @@ const togglePlay = () => {
     } else {
         video.pause();
     }
+};
+const autoPlay = () => {
+    if(screen !== undefined) {
+       screen.then(function(){
+           console.log('playback started');
+       }).catch(function(error){
+           console.log('playback error: ', error);
+       }); 
+    };
 };
 
 const updateButton = () => {
