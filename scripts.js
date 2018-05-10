@@ -8,7 +8,7 @@ const   player = document.querySelector('.player'),
         ranges = player.querySelectorAll('.player__slider');
 
         // add for auto playback
-                // screen = document.querySelector('.viewer').play();
+        // const screen = document.querySelector('.viewer').play();
 
 
 
@@ -20,15 +20,17 @@ const togglePlay = () => {
         video.pause();
     }
 };
-const autoPlay = () => {
-    if(screen !== undefined) {
-       screen.then(function(){
-           console.log('playback started');
-       }).catch(function(error){
-           console.log('playback error: ', error);
-       }); 
-    };
-};
+
+// handles autoplay promise 
+// const autoPlay = () => {
+//     if(screen !== undefined) {
+//        screen.then(function(){
+//            console.log('playback started');
+//        }).catch(function(error){
+//            console.log('playback error: ', error);
+//        }); 
+//     };
+// };
 
 const updateButton = () => {
     const icon = video.paused ? '>' : '||';
@@ -37,7 +39,7 @@ const updateButton = () => {
 
 function skip() {
     // console.log(this.dataset.skip);
-    // dataset 
+    // dataset accesses all data- attributes of elements
     video.currentTime += parseFloat(this.dataset.skip);
 };
 
