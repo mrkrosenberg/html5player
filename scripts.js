@@ -2,7 +2,7 @@
 const   player = document.querySelector('.player'),
         video = player.querySelector('.viewer'),
         progress = player.querySelector('.progress'),
-        progressBar = player.querySelector('.progess__filled'),
+        progressBar = player.querySelector('.progress__filled'),
         toggle = player.querySelector('.toggle'),
         skipButtons = player.querySelectorAll('[data-skip]'),
         ranges = player.querySelectorAll('.player__slider');
@@ -10,7 +10,7 @@ const   player = document.querySelector('.player'),
         // add for auto playback
         // const screen = document.querySelector('.viewer').play();
 
-
+let mousedown = false;
 
 // build out functions
 const togglePlay = () => {
@@ -21,7 +21,7 @@ const togglePlay = () => {
     }
 };
 
-// handles autoplay promise 
+// handles autoplay promise/rejection 
 // const autoPlay = () => {
 //     if(screen !== undefined) {
 //        screen.then(function(){
@@ -44,7 +44,19 @@ function skip() {
 };
 
 function handleRangeUpdate() {
-    console.log(this.value);
+    video[this.name] = this.value;
+};
+
+function handleProgress() {
+    // update flex-basis to show progress on progress bar
+    const percent = (video.currentTime / video.duration) * 100;
+    // console.log(progressBar);
+    progressBar.style.flexBasis = `${percent}%`;
+};
+
+function scrubVideo(event) {
+    const scrubTime = (event.offsetX / progress.offsetWidth) * video.duration;
+    video.currentTime = scrubTime;
 };
 
 
@@ -52,6 +64,13 @@ function handleRangeUpdate() {
 video.addEventListener('click', togglePlay);
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
+video.addEventListener('timeupdate', handleProgress);
+
+progress.addEventListener('click', scrubVideo);
+progress.addEventListener('mousemove', (e) => mousedown && scrubVideo(e));
+progress.addEventListener('mousedown', () => mousedown = true); 
+progress.addEventListener('mouseup', () => mousedown = false); 
+
 
 toggle.addEventListener('click', togglePlay);
 
@@ -59,3 +78,4 @@ skipButtons.forEach(button => button.addEventListener('click', skip));
 
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
+
